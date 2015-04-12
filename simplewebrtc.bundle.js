@@ -163,13 +163,11 @@ function SimpleWebRTC(opts) {
     }
 
     connection.on('stunservers', function (args) {
-        // resets/overrides the config
-        self.webrtc.config.peerConnectionConfig.iceServers = args;
+        // use Xirsys STUN as set in peerConnectionConfig.iceServers instead of overriding with Google STUN
         self.emit('stunservers', args);
     });
     connection.on('turnservers', function (args) {
-        // appends to the config
-        self.webrtc.config.peerConnectionConfig.iceServers = self.webrtc.config.peerConnectionConfig.iceServers.concat(args);
+        // use Xirsys TURN as set in peerConnectionConfig.iceServers instead of appending
         self.emit('turnservers', args);
     });
 
@@ -179,7 +177,6 @@ function SimpleWebRTC(opts) {
     this.webrtc.on('connectivityError', function (peer) {
         // remote ice failure
     });
-
 
     // sending mute/unmute to all peers
     this.webrtc.on('audioOn', function () {
